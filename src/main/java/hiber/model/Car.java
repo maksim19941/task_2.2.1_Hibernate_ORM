@@ -1,8 +1,13 @@
 package hiber.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Component
 public class Car {
 
     @Id
@@ -11,8 +16,8 @@ public class Car {
     private String model;
     private int series;
 
-    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
-    private User user;
+//    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
+//    private User user;
 
     public Car() {}
 
@@ -45,13 +50,13 @@ public class Car {
         this.series = series;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Override
     public String toString() {
@@ -59,7 +64,20 @@ public class Car {
                 "id=" + id +
                 ", model='" + model + '\'' +
                 ", series=" + series +
+                ", user=" +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return series == car.series && Objects.equals(id, car.id) && Objects.equals(model, car.model);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, model, series);
+    }
 }
