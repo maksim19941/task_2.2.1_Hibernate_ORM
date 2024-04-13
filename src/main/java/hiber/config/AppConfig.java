@@ -22,10 +22,15 @@ import java.util.Properties;
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @ComponentScan(value = "hiber")
+
 public class AppConfig {
 
-   @Autowired
    private Environment env;
+
+   @Autowired
+   public AppConfig(Environment env) {
+      this.env = env;
+   }
 
    @Bean
    public DataSource getDataSource() {
@@ -57,6 +62,10 @@ public class AppConfig {
       transactionManager.setSessionFactory(getSessionFactory().getObject());
       return transactionManager;
    }
+
+
+
+
 }
 
 
